@@ -18,7 +18,8 @@ export async function POST(request: NextRequest) {
     console.log('Processing push', JSON.stringify(push))
     t0 = Date.now()
 
-    push.mutations.reduce(async (_, mutation: MutationV1) => {
+    await push.mutations.reduce(async (previous: Promise<void>, mutation: MutationV1) => {
+      await previous
       const t1 = Date.now()
       try {
         const result = await db.transaction(
